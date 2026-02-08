@@ -1,16 +1,24 @@
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import * as schema from '../model/index.js';
+import { ENV_CONFIG } from "./envconfig.js";
+
+console.log(ENV_CONFIG);
 
 const pool = new Pool({
-    host: 'localhost',
-    port: 5432,
-    user: 'postgres',
-    password: '12345',
-    database: 'local_db2',
-    ssl: false,
-    max: 20,
-    min: 5,
+    host: ENV_CONFIG.db.host,
+    port: ENV_CONFIG.db.port,
+    user: ENV_CONFIG.db.user,
+    password: ENV_CONFIG.db.password,
+    database: ENV_CONFIG.db.database,
+    // ssl: {
+    //     rejectUnauthorized: ENV_CONFIG.db.ssl
+    // },
+    // ssl: ENV_CONFIG.db.ssl,
+    ssl: {
+        rejectUnauthorized: false
+    },
+    max: 5,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000
 });
